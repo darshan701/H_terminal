@@ -1,0 +1,31 @@
+.crt-display {
+    --crt-height: 90%;
+
+    --crt-chasis-border-radius: 10px;
+    --crt-chasis-border-width: 20px;
+    --crt-chasis-border-color: #444444;
+    --crt-chasis-shadow-color: rgba(38, 38, 38, 0.6);
+    --crt-chasis-shadow-size: 5px;
+
+    --crt-display-emmission-color: rgba(32, 165, 40, 0.5);
+    --crt-display-emmission-spread: 15px;
+    --crt-display-emmission-size: 6px;
+
+    --crt-screen-background-color1: #057929;
+    --crt-screen-background-color2: #056f26;
+
+    --crt-screen-scanline-animation-time: 6s;
+
+    --crt-screen-text-color: #36c628;
+    --crt-screen-text-glow-color: #65ff65;
+    --crt-screen-text-glow-radius: 10px;
+    --crt-screen-text-font-size: 1.8em;
+
+    --crt-screen-text-font: 'VT323';
+    /*
+    --crt-screen-text-font: 'Noto Sans Mono';
+    */
+    --crt-screen-blur: 0.1px;
+
+
+}
