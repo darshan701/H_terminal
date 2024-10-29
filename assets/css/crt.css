@@ -189,7 +189,7 @@
 .blinking-cursor{
     display: inline-block;
     animation: cursor-blink 1s linear infinite;
-    transform: scaleX(0.5) scaleY(0.65);
+    transform: scaleX(0.5) scaleY(0.65) translateX(-2rem);
 }
 
 @keyframes cursor-blink {
