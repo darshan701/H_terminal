@@ -50,8 +50,10 @@
 
 .screen{
     position: absolute;
-    top: var(--crt-chasis-border-width);
-    left: var(--crt-chasis-border-width);
+    top: 1%;
+    left: 1%;
+    width: 98%;
+    height: 98%;
     color:var(--crt-screen-text-color);
     filter: blur(var(--crt-screen-blur));
 
@@ -119,13 +121,13 @@
         transform: skew(0deg);
     }
     45%{
-        transform: skew(2deg) translateX(1px);
+        transform: skew(1deg) translateX(1px);
     }
     50%{
         text-shadow: var(--crt-screen-text-glow-color) 10px 0 var(--crt-screen-text-glow-radius);
     }
     55%{
-        transform: skew(-2deg);
+        transform: skew(-1deg);
     }
     75%{
         transform:skew(0deg) translateX(0px);
