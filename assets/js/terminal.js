@@ -113,7 +113,10 @@ function handleCommand(inputBuffer) {
         args.push(currentArg.trim());
     }
     if(commands[command]){
-        return commands[command]();
+        if(args.length === 0) {
+            return commands[command]();
+        }
+        return commands[command](args);
     } else {
         print("Command not found: " + command);
     }
