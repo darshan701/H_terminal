@@ -61,6 +61,19 @@
     font-size: var(--crt-screen-text-font-size);
     user-select: none;
     font-family: var(--crt-screen-text-font), monospace;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+/*Hide Scrollbar*/
+/*https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll*/
+.screen {
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+.screen::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
 }
 .crt-border:before{
     width: 100%;

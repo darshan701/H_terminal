@@ -11,8 +11,10 @@ const newLineEvent = new Event('newLine');
 let prompt = '> ';
 let inputBuffer = "";
 let readonlyBuffer= "> ";
+let terminalHistory = '';
 let shouldShowInput = true;
 let readingLine = false;
+let executingCommand = false;
 
 let commands = {};
 let shortcuts = {}; //[modifierKey, key] -> callback
@@ -29,32 +31,35 @@ function onKeyPressed(event) {
     let keyValue = event.key;
     let codeValue = event.code;
 
-    if(event.ctrlKey && shortcuts[['ctrl', keyValue]]){
+    if(event.ctrlKey && shortcuts[['ctrl', keyValue]] && !executingCommand && !readingLine){
         let callback = shortcuts[['ctrl', keyValue]]();
         event.preventDefault();
         return;
     }
 
-    if(event.altKey && shortcuts[['alt', keyValue]]){
+    if(event.altKey && shortcuts[['alt', keyValue]] && !executingCommand && !readingLine){
         shortcuts[['alt', keyValue]]();
         event.preventDefault();
         return;
     }
 
-    if(event.metaKey && shortcuts[['meta', keyValue]]){
+    if(event.metaKey && shortcuts[['meta', keyValue]]&& !executingCommand && !readingLine){
         shortcuts[['alt', keyValue]]();
         event.preventDefault();
         return;
     }
 
-    if(event.shiftKey && shortcuts[['shift', keyValue]]){
+    if(event.shiftKey && shortcuts[['shift', keyValue]] && !executingCommand && !readingLine){
         shortcuts[['shift', keyValue]]();
         event.preventDefault();
         return;
     }
     if(keyValue.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey){
         addToBuffer(keyValue);
-    } else if (keyValue === 'Backspace'){
+        return;
+    }
+
+    if (keyValue === 'Backspace'){
         if(inputBuffer.length > 0){
             inputBuffer = inputBuffer.substring(0, inputBuffer.length - 1);
         }
@@ -62,23 +67,41 @@ function onKeyPressed(event) {
     } else if (keyValue === 'Space') {
         addToBuffer(' ')
     } else if(keyValue === 'Enter'){
+        let wasReadingLine = readingLine;
         document.dispatchEvent(newLineEvent);
         readonlyBuffer += inputBuffer+'\n';
         if(inputBuffer.trim() !== ''){
-            handleCommand(inputBuffer);
+            if(!executingCommand && !readingLine && !wasReadingLine){
+                handleCommand(inputBuffer);
+            }
         }
         inputBuffer = '';
-        if(!readonlyBuffer.endsWith('\n') && !readonlyBuffer.endsWith(prompt)){
-            readonlyBuffer += '\n';
-        }
-        if(!readonlyBuffer.endsWith(prompt)) {
-            readonlyBuffer += prompt;
+        if(!executingCommand &&!readingLine && !wasReadingLine){
+
+            ensurePrompt();
         }
         onBufferUpdated();
     }
 }
 
+document.addEventListener('wheel', (event) => {
+    let delta = event.deltaY;
+    if(delta > 0){
+        scroll();
+    } else {
+
+    }
+});
+
+function finishCommand() {
+    executingCommand = false;
+    readingLine = false;
+    ensurePrompt();
+}
+
 function handleCommand(inputBuffer) {
+    executingCommand = true;
+    let ret = 0;
     inputBuffer = inputBuffer.trim();
     let command = '';
     let args = [];
@@ -113,13 +136,17 @@ function handleCommand(inputBuffer) {
         args.push(currentArg.trim());
     }
     if(commands[command]){
-        if(args.length === 0) {
-            return commands[command]();
-        }
-        return commands[command](args);
+        ret = commands[command](args);
     } else {
         print("Command not found: " + command);
+        ret = 127;
     }
+    executingCommand = false;
+    return ret;
+}
+
+function execCmd(command) {
+    handleCommand(command);
 }
 
 function addToBuffer(keyValue){
@@ -133,27 +160,32 @@ function onBufferUpdated() {
     if(shouldShowInput){
         outputElement.innerText = readonlyBuffer + inputBuffer;
         outputElement.attributes.getNamedItem('data-glitch').value = readonlyBuffer + inputBuffer;
+    } else {
+        outputElement.innerText = readonlyBuffer + '*'.repeat(inputBuffer.length);
+        outputElement.attributes.getNamedItem('data-glitch').value = readonlyBuffer + '*'.repeat(inputBuffer.length);
     }
     scroll();
 }
 
 function scroll() {
-    if(cursor.getBoundingClientRect().bottom >= screen.getBoundingClientRect().bottom){
+    /*if(cursor.getBoundingClientRect().bottom >= screen.getBoundingClientRect().bottom){
         if (readonlyBuffer.includes('\n') && readonlyBuffer.indexOf('\n') !== readonlyBuffer.length - 1){
-            readonlyBuffer = readonlyBuffer.substring(readonlyBuffer.indexOf('\n') + 1);
+            let newBuff = readonlyBuffer.substring(readonlyBuffer.indexOf('\n') + 1);
+            terminalHistory += readonlyBuffer.substring(0, readonlyBuffer.indexOf('\n') + 1);
+            readonlyBuffer = newBuff;
             onBufferUpdated();
         }
         else {
             alert('Unhandled state!!!');
         }
-    }
+    }*/
+    screen.scrollTop = screen.scrollHeight;
 }
 
 function readLine() {
+    readingLine = true;
     return new Promise((resolve, reject) => {
-        readingLine = true;
         document.addEventListener('newLine', () => {
-            readingLine = false;
             resolve(inputBuffer);
         });
     });
@@ -195,9 +227,19 @@ function showInput() {
     shouldShowInput = true;
 }
 
-function clearScreen() {
-    readonlyBuffer = prompt;
+function clearScreen(showPrompt = false) {
+    readonlyBuffer = showPrompt ? prompt : '';
     inputBuffer = '';
+    onBufferUpdated();
+}
+
+function ensurePrompt() {
+    if (!readonlyBuffer.endsWith('\n') && !readonlyBuffer.endsWith(prompt)) {
+        readonlyBuffer += '\n';
+    }
+    if (!readonlyBuffer.endsWith(prompt)) {
+        readonlyBuffer += prompt;
+    }
     onBufferUpdated();
 }
 
