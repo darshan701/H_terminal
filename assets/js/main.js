@@ -72,8 +72,6 @@ function start(){
                             });
                         return;
                     }
-                    printLine(username + ' ' + password);
-                    printLine(realUsername + ' ' + realPassword);
                     //clearScreen();
                     printLine('Access denied');
                     askLogin(realUsername, realPassword, false);
