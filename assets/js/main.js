@@ -72,7 +72,7 @@ function start(){
                             });
                         return;
                     }
-                    //clearScreen();
+                    clearScreen();
                     printLine('Access denied');
                     askLogin(realUsername, realPassword, false);
                 });
