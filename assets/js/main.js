@@ -155,6 +155,7 @@ Dr. Alden FrostLead Researcher, Hellion Dynamics
         if(args.length === 0){
             if(currentFolder.startsWith('/home/'+atob(username).trim())){
                 currentFolder = '/home/'+atob(username).trim();
+                prompt = '⌂ > ';
             }
         } else {
             switch(args[0]){
@@ -190,6 +191,7 @@ Dr. Alden FrostLead Researcher, Hellion Dynamics
                     printLine('Folder not found');
                     break;
             }
+            prompt = currentFolder.replace('/home/'+atob(username).trim(), '⌂') + ' > ';
         }
     });
 

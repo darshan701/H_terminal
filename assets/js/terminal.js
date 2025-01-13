@@ -8,7 +8,7 @@ const screen = document.getElementById('display-screen');
 const newLineEvent = new Event('newLine');
 
 
-let prompt = '> ';
+let prompt = '⌂ > ';
 let inputBuffer = "";
 let readonlyBuffer= "> ";
 let terminalHistory = '';
