@@ -20,6 +20,7 @@ const img =
     "      ┈▇▇▇▇▇▇▇▇▇▇▇     ▉\n" +
     "                       ▉\n" +
     "\n";
+let username = 'MzI3NTI4MzQ5';
 
 function disableDebugAccess() {
     document.addEventListener('keydown', (event) => {
@@ -62,11 +63,11 @@ function start(){
                 hideInput();
                 readLine().then((password) => {
                     showInput();
-                    if(username === realUsername && password === realPassword){
+                    if((username === realUsername && password === realPassword) || true){ //TODO: Change this. Remove the bypass before prod!
                         //printLine('Access granted');
                         clearScreen();
                         currentFolder = '/home/' + realUsername;
-                        printCharacterByCharacter("Welcome, " + atob('QWxkZW4gLkY=').trim() + " !\n", 50)
+                        printCharacterByCharacter("Welcome, " + atob('QWxkZW4gLkY=').trim() + " !\nConsole Version 2.25\n\nType \'help\' to see available commands\n\n", 50)
                             .then(() => {
                                 finishCommand();
                             });
@@ -78,7 +79,7 @@ function start(){
                 });
             });
         }
-        askLogin(atob('MzI3NTI4NDM5').trim(), atob('UDE2MjQ4aGwjNQ==').trim());
+        askLogin(atob(username).trim(), atob('UDE2MjQ4aGwjNQ==').trim());
     });
 
     registerCommand('clear', () => {
@@ -92,7 +93,7 @@ function start(){
     });
 
     registerCommand('ls', () => {
-        if(currentFolder === '/home/'+atob('MzI3NTI4NDM5').trim()){
+        if(currentFolder === '/home/'+atob(username).trim()){
             printLine('Documents/');
             printLine('Images/');
             printLine('Logs/');
@@ -109,7 +110,7 @@ function start(){
         } else {
             switch(args[0]){
                 case 'contract_506.txt':
-                    if(currentFolder !== '/home/'+atob('MzI3NTI4NDM5').trim()){
+                    if(currentFolder !== '/home/'+atob(username).trim()){
                         printLine('File not found');
                         break;
                     }
@@ -137,7 +138,7 @@ Dr. Alden FrostLead Researcher, Hellion Dynamics
                     `, 10).then(() => finishCommand());
                     break;
                 case 'project736.txt':
-                    if(currentFolder !== '/home/'+atob('MzI3NTI4NDM5').trim()){
+                    if(currentFolder !== '/home/'+atob(username).trim()){
                         printLine('File not found');
                         break;
                     }
@@ -152,38 +153,38 @@ Dr. Alden FrostLead Researcher, Hellion Dynamics
 
     registerCommand('cd', (args) => {
         if(args.length === 0){
-            if(currentFolder.startsWith('/home/'+atob('MzI3NTI4NDM5').trim())){
-                currentFolder = '/home/'+atob('MzI3NTI4NDM5').trim();
+            if(currentFolder.startsWith('/home/'+atob(username).trim())){
+                currentFolder = '/home/'+atob(username).trim();
             }
         } else {
             switch(args[0]){
                 case 'Documents':
-                    if(currentFolder !== '/home/'+atob('MzI3NTI4NDM5').trim()){
+                    if(currentFolder !== '/home/'+atob(username).trim()){
                         printLine('Folder not found');
                         break;
                     }
                     currentFolder += '/Documents';
                     break;
                 case 'Images':
-                    if(currentFolder !== '/home/'+atob('MzI3NTI4NDM5').trim()){
+                    if(currentFolder !== '/home/'+atob(username).trim()){
                         printLine('Folder not found');
                         break;
                     }
                     currentFolder += '/Images';
                     break;
                 case 'Logs':
-                    if(currentFolder !== '/home/'+atob('MzI3NTI4NDM5').trim()){
+                    if(currentFolder !== '/home/'+atob(username).trim()){
                         printLine('Folder not found');
                         break;
                     }
                     currentFolder += '/Logs';
                     break;
                 case '..':
-                    if(currentFolder === '/home/'+atob('MzI3NTI4NDM5').trim()){
+                    if(currentFolder === '/home/'+atob(username).trim()){
                         printLine('Cannot go back');
                         break;
                     }
-                    currentFolder = '/home/'+atob('MzI3NTI4NDM5').trim();
+                    currentFolder = '/home/'+atob(username).trim();
                     break;
                 default:
                     printLine('Folder not found');
