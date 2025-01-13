@@ -198,6 +198,8 @@ function printLine(text) {
 function printCharacterByCharacter(text, interval) {
     return new Promise((resolve, reject) => {
         let i = 0;
+        executingCommand = true;
+        readingLine = true;
         let intervalId = setInterval(() => {
             if(i < text.length){
                 print(text[i]);
@@ -205,6 +207,8 @@ function printCharacterByCharacter(text, interval) {
             } else {
                 clearInterval(intervalId);
                 resolve();
+                executingCommand = false;
+                readingLine = false;
             }
         }, interval);
     });
