@@ -148,7 +148,7 @@ o\tFinancial compensation of $8,750,000 USD to be wired to the offshore account 
 
 Dr. Alden FrostLead Researcher, Hellion Dynamics
 [REDACTED]Authorized Representative, Ministry of National Security\n
-                    `, 10).then(() => finishCommand());
+                    `, 2).then(() => finishCommand());
                     break;
                 case 'project736.txt':
                     if(currentFolder !== '/home/'+atob(username).trim()){
@@ -220,7 +220,7 @@ __
 References
 Available upon request.
 
-                    `, 10).then(() => finishCommand());
+                    `, 2).then(() => finishCommand());
                     break;
                 case 'TestResult_071124.txt':
                     if(currentFolder !== '/home/'+atob(username).trim()+'/Documents'){
@@ -279,7 +279,7 @@ Lead Research Scientist – Weapons R&D
 Hellion Dynamics
 ________________________________________
 This document and its contents are the property of Hellion Dynamics. Unauthorized access, duplication, or distribution is prohibited and will be prosecuted under applicable laws.
-`, 10).then(() => finishCommand());
+`, 2).then(() => finishCommand());
                     break;
                 case 'TestResult_120824.txt':
                     if(currentFolder !== '/home/'+atob(username).trim()+'/Documents'){
@@ -339,7 +339,7 @@ Lead Research Scientist – Weapons R&D
 Hellion Dynamics
 ________________________________________
 This document and its contents are the property of Hellion Dynamics. Unauthorized access, duplication, or distribution is prohibited and will be prosecuted under applicable laws.
-`, 10).then(() => finishCommand());
+`, 2).then(() => finishCommand());
                     break;
                 case 'TestResult_171024.txt':
                     if(currentFolder !== '/home/'+atob(username).trim()+'/Documents'){
@@ -435,7 +435,7 @@ Lead Engineer – Advanced Weapon Systems
 Hellion Dynamics
 ________________________________________
 This document and its contents are the property of Hellion Dynamics. Unauthorized access, duplication, or distribution is prohibited and will be prosecuted under applicable laws.
-                    `, 10).then(() => finishCommand());
+                    `, 2).then(() => finishCommand());
                     break;
                 default:
                     printLine('File not found');
@@ -492,6 +492,10 @@ This document and its contents are the property of Hellion Dynamics. Unauthorize
         printCharacterByCharacter(args.join(' '), 50).then(() => {
             printLine('');
         });
+    });
+
+    registerCommand('image', (args) => {
+        printImage('https://cdn.discordapp.com/attachments/700704551233126400/1328497217819901952/Untitled-1.png?ex=6786eaf3&is=67859973&hm=0bf1345a32a07de07bb86e36f86992ae597a21afbf778ea3e8c04f3cf3580ef4&');
     });
 
     execCmd('logout');
