@@ -11,7 +11,8 @@ const newLineEvent = new Event('newLine');
 let prompt = '⌂ > ';
 let inputBuffer = "";
 let readonlyBuffer= "> ";
-let terminalHistory = '';
+let terminalHistory = [];
+let pointInHistory = -1;
 let shouldShowInput = true;
 let readingLine = false;
 let executingCommand = false;
@@ -66,6 +67,28 @@ function onKeyPressed(event) {
         onBufferUpdated();
     } else if (keyValue === 'Space') {
         addToBuffer(' ')
+    } else if (keyValue === 'ArrowUp') {
+        if(terminalHistory.length > 0 && pointInHistory === -1){
+            inputBuffer = terminalHistory[terminalHistory.length - 1];
+            pointInHistory = terminalHistory.length - 1;
+            onBufferUpdated();
+        } else if(pointInHistory > 0 && terminalHistory.length > 0){
+            pointInHistory--;
+            inputBuffer = terminalHistory[pointInHistory];
+            onBufferUpdated();
+        }
+    } else if (keyValue === 'ArrowDown') {
+        if(pointInHistory === terminalHistory.length - 1 && terminalHistory.length > 0){
+            inputBuffer = '';
+            pointInHistory = -1;
+            onBufferUpdated();
+        } else if(pointInHistory < terminalHistory.length - 1 && pointInHistory >= 0){
+            pointInHistory++;
+            inputBuffer = terminalHistory[pointInHistory];
+            onBufferUpdated();
+        }
+    } else if(keyValue === 'Tab'){
+        event.preventDefault(); // Don't do anything else for now
     } else if(keyValue === 'Enter'){
         let wasReadingLine = readingLine;
         document.dispatchEvent(newLineEvent);
@@ -100,6 +123,8 @@ function finishCommand() {
 }
 
 function handleCommand(inputBuffer) {
+    terminalHistory.push(inputBuffer);
+    pointInHistory = -1;
     executingCommand = true;
     let ret = 0;
     inputBuffer = inputBuffer.trim();
