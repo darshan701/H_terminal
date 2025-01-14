@@ -9,6 +9,7 @@
     position: relative;
     height: var(--crt-height);
     margin: calc((100% - var(--crt-height)) /4);
+    line-height: 40px;
 }
 
 .crt-border-outer {
@@ -87,6 +88,11 @@
     overflow: hidden;
     top: 0;
 }
+
+.clickable{
+    cursor: pointer;
+}
+
 @media screen{
     .crt-border-inner {
         animation: scanlines infinite var(--crt-screen-scanline-animation-time) ease-in-out ;

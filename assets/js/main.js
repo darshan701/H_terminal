@@ -63,7 +63,7 @@ function start(){
                 hideInput();
                 readLine().then((password) => {
                     showInput();
-                    if((username === realUsername && password === realPassword) || true){ //TODO: Change this. Remove the bypass before prod!
+                    if(username === realUsername && password === realPassword){
                         //printLine('Access granted');
                         clearScreen();
                         currentFolder = '/home/' + realUsername;
@@ -99,19 +99,23 @@ function start(){
                 printLine('Images/');
                 printLine('Logs/');
                 printLine('contract_506.txt');
-                printLine('project736.txt');
+                printLine('project736.txt [empty]');
                 break;
             case '/home/'+atob(username).trim()+'/Documents':
                 printLine('Resume_2022_Backup.pdf');
                 printLine('TestResult_071124.txt');
-                printLine('TestResult_120824.txt [empty]');
+                printLine('TestResult_120824.txt');
                 printLine('TestResult_171024.txt [empty]');
                 printLine('TestResult_230524.txt [empty]');
                 printLine('TestResult_110823.txt [empty]');
                 printLine('EngineeringReport_140924.docx');
                 break;
+            case '/home/'+atob(username).trim()+'/Images':
+                printLine('GPR-G3_Blueprint.png');
+                printLine('ID.png');
+                break;
             default:
-                printLine('');
+                printLine('[empty]');
                 break;
 
         }
@@ -155,7 +159,8 @@ Dr. Alden FrostLead Researcher, Hellion Dynamics
                         printLine('File not found');
                         break;
                     }
-                    printLine('This is a project description document.');
+                    printLine('This file contains 0 bytes of data\n' +
+                        '[File will be no longer be available after the next network refresh]');
                     break;
                 case 'Resume_2022_Backup.pdf':
                     if(currentFolder !== '/home/'+atob(username).trim()+'/Documents'){
@@ -437,6 +442,20 @@ ________________________________________
 This document and its contents are the property of Hellion Dynamics. Unauthorized access, duplication, or distribution is prohibited and will be prosecuted under applicable laws.
                     `, 2).then(() => finishCommand());
                     break;
+                case 'GPR-G3_Blueprint.png':
+                    if(currentFolder !== '/home/'+atob(username).trim()+'/Images'){
+                        printLine('File not found');
+                        break;
+                    }
+                    printImage('assets/img/GPR-G3_Blueprint-Preview.png', 'assets/img/GPR-G3_Blueprint.png');
+                    break;
+                case 'ID.png':
+                    if(currentFolder !== '/home/'+atob(username).trim()+'/Images'){
+                        printLine('File not found');
+                        break;
+                    }
+                    printImage('assets/img/ID-Preview.png', 'assets/img/ID.png');
+                    break;
                 default:
                     printLine('File not found');
                     break;
@@ -491,11 +510,7 @@ This document and its contents are the property of Hellion Dynamics. Unauthorize
     registerCommand('echo', (args) => {
         printCharacterByCharacter(args.join(' '), 50).then(() => {
             printLine('');
-        });
-    });
-
-    registerCommand('image', (args) => {
-        printImage('https://cdn.discordapp.com/attachments/700704551233126400/1328497217819901952/Untitled-1.png?ex=6786eaf3&is=67859973&hm=0bf1345a32a07de07bb86e36f86992ae597a21afbf778ea3e8c04f3cf3580ef4&');
+        }).then(() => finishCommand());
     });
 
     execCmd('logout');

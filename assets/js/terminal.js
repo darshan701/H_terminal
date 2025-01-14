@@ -158,10 +158,33 @@ function addToBuffer(keyValue){
 
 function onBufferUpdated() {
     if(shouldShowInput){
-        outputElement.innerText = readonlyBuffer + inputBuffer;
-        outputElement.attributes.getNamedItem('data-glitch').value = readonlyBuffer + inputBuffer;
+        outputElement.innerHTML = '';
+        outputElement.attributes.getNamedItem('data-glitch').value = '';
+        let text = readonlyBuffer + inputBuffer;
+        let parts = text.split('#####');
+        if(parts.length > 1){
+            // src for images are all odd parts
+            let srcs = parts.filter((value, index) => index % 2 === 1);
+            let textParts = parts.filter((value, index) => index % 2 === 0);
+            let i = 0;
+            for(i = 0; i < textParts.length || i < srcs.length; i++) {
+                if(i < textParts.length) {
+                    outputElement.innerHTML += textParts[i];
+                    outputElement.attributes.getNamedItem('data-glitch').value += textParts[i];
+                }
+                if(i < srcs.length) {
+                    let full = srcs[i].replace('-Preview', '');
+                    outputElement.innerHTML += "<img class='clickable' onclick=\"window.open('"+full+"')\" src=\"" + srcs[i] + '" style="height: 390px; filter: blur(1px) brightness(120%);">';
+                    outputElement.attributes.getNamedItem('data-glitch').value += '\n'.repeat(9);
+                }
+            }
+        }
+        else {
+            outputElement.innerText = readonlyBuffer + inputBuffer;
+            outputElement.attributes.getNamedItem('data-glitch').value = readonlyBuffer + inputBuffer;
+        }
     } else {
-        outputElement.innerText = readonlyBuffer + '*'.repeat(inputBuffer.length);
+        outputElement.innerHTML = readonlyBuffer + '*'.repeat(inputBuffer.length);
         outputElement.attributes.getNamedItem('data-glitch').value = readonlyBuffer + '*'.repeat(inputBuffer.length);
     }
     scroll();
@@ -261,4 +284,8 @@ function registerShortcut(modifierKey, key, callback) {
 
 function removeShortcut(modifierKey, key) {
     delete shortcuts[[modifierKey, key]];
+}
+
+function printImage(imageSrcP, imageSrcF) {
+    print('#####' +imageSrcP+'#####\n');
 }
