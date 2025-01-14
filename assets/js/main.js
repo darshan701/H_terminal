@@ -6,20 +6,6 @@ window.addEventListener("load", (event) => {
 
 let currentFolder = '';
 
-const img =
-    "                       ▉\n" +
-    "               ┈▁      ▉\n" +
-    "      ╺▅┒┒▂▁▂▁╺▇▆╸     ▉\n" +
-    "      ┕╴╱▇▉ ▊┈▆╸▎╹     ▉\n" +
-    "      ▉┙┊▗▉▏▋▃┊┈╺▎▂▃▂╴ ▉\n" +
-    "      ▊▎▁▝▘╾╸▄▁ ▊▍▖╾▂▁▏▉\n" +
-    "      ┈▅▝▁▃▃▇▂▂▗▝▉▏ ▇┈ ▉\n" +
-    "       ╱▆▅▅▅▅▅▅▆▍╴▌    ▉\n" +
-    "     ╻▃▖▏     ▗▉▏▃▘    ▉\n" +
-    "     ╹┗▝▎▂▂▃▄▆▁▉▘▁╹    ▉\n" +
-    "      ┈▇▇▇▇▇▇▇▇▇▇▇     ▉\n" +
-    "                       ▉\n" +
-    "\n";
 let username = 'MzI3NTI4MzQ5';
 
 function disableDebugAccess() {
@@ -67,7 +53,7 @@ function start(){
                         //printLine('Access granted');
                         clearScreen();
                         currentFolder = '/home/' + realUsername;
-                        printCharacterByCharacter("Welcome, " + atob('QWxkZW4gLkY=').trim() + " !\nConsole Version 2.25\n\nType \'help\' to see available commands\n\n", 50)
+                        printCharacterByCharacter("Welcome, " + atob('QWxkZW4gLkY=').trim() + " !\nHD_Terminal Version 2.25\n\nType \'help\' to see available commands\n\n", 50)
                             .then(() => {
                                 finishCommand();
                             });
